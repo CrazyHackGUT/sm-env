@@ -40,7 +40,7 @@ static cell_t sm_setenv(SourcePawn::IPluginContext *pContext, const cell_t *para
 extern const sp_nativeinfo_t env_natives[] =
 {
 	{"GetEnvironmentVariable",	sm_getenv},
-    {"SetEnvironmentVariable",	sm_setenv},
+	{"SetEnvironmentVariable",	sm_setenv},
 	{NULL,						NULL}
 };
 
