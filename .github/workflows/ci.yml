@@ -105,6 +105,7 @@ jobs:
   artifact-linux:
     name: Linux - Publish artifact
     needs: build-linux
+    runs-on: ubuntu-latest
     steps:
     - name: Publish
       uses: actions/upload-artifact@v1
