@@ -1,0 +1,5 @@
+# Build directory
+build
+
+# mac OS trash files
+.DS_Store
