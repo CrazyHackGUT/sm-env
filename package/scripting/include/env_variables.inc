@@ -49,7 +49,10 @@ native int GetEnvironmentVariable(const char[] szName, char[] szBuffer, int iBuf
  *
  * @param	szName			The environment variable name.
  * @param	szValue			The string value to store into env.
- * @param	bOverwrite		The value can be overwritten (if exists)?
+ * @param	bOverwrite		The value can be overwritten (if exists)? 
+ *                          Changing behavior is available only on UNIX.
+ *                          On Windows, this argument does nothing.
+ *
  * @return					True if success, false otherwise (no free memory).
  */
 native bool SetEnvironmentVariable(const char[] szName, const char[] szValue, bool bOverwrite = false);
