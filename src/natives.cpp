@@ -30,7 +30,7 @@
  */
 
 #include "natives.h"
-#include <cstdlib>
+#include <stdlib.h>
 
 static cell_t sm_getenv(SourcePawn::IPluginContext *pContext, const cell_t *params)
 {
@@ -49,4 +49,26 @@ static cell_t sm_getenv(SourcePawn::IPluginContext *pContext, const cell_t *para
     }
 
     return 0;
+}
+
+static cell_t sm_setenv(SourcePawn::IPluginContext *pContext, const cell_t *params)
+{
+    char *name;
+    char *value;
+    pContext->LocalToString(params[1], &name);
+    pContext->LocalToString(params[2], &value);
+
+    cell_t overwrite = params[3];
+    return (__setenv(name, value, overwrite) == 0) ? 1 : 0;
+}
+
+static int __setenv(const char* name, const char* value, int overwrite)
+{
+
+#ifdef __linux__
+    return setenv(name, value, overwrite);
+#elif _WIN32
+    return _putenv_s(name, value);
+#endif
+
 }

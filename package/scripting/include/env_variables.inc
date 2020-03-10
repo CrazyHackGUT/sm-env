@@ -45,6 +45,16 @@
 native int GetEnvironmentVariable(const char[] szName, char[] szBuffer, int iBufferLength);
 
 /**
+ * Writes the specified value in environment variables with specified name.
+ *
+ * @param	szName			The environment variable name.
+ * @param	szValue			The string value to store into env.
+ * @param	bOverwrite		The value can be overwritten (if exists)?
+ * @return					True if success, false otherwise (no free memory).
+ */
+native bool SetEnvironmentVariable(const char[] szName, const char[] szValue, bool bOverwrite = false);
+
+/**
  * Do not edit below this line!
  */
 public Extension __ext_env_variables =
