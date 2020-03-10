@@ -51,6 +51,11 @@ jobs:
         cd sm-environment/build
         python ./build.py
         cd ../..
+    - name: Publish
+      uses: actions/upload-artifact@v1
+      with:
+        name: linux
+        path: sm-environment/build/package
 
   build-windows:
     name: Windows - Build
@@ -101,22 +106,6 @@ jobs:
         cd sm-environment/build
         python ./build.py
         cd ../..
-
-  artifact-linux:
-    name: Linux - Publish artifact
-    needs: build-linux
-    runs-on: ubuntu-latest
-    steps:
-    - name: Publish
-      uses: actions/upload-artifact@v1
-      with:
-        name: linux
-        path: sm-environment/build/package
-  artifact-windows:
-    name: Windows - Publish artifact
-    needs: build-windows
-    runs-on: windows-latest
-    steps:
     - name: Publish
       uses: actions/upload-artifact@v1
       with:
