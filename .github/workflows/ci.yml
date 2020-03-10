@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   build-linux:
+    name: Linux - Build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout our code
@@ -14,8 +15,16 @@ jobs:
       with:
         repository: 'alliedmodders/sourcemod'
         ref: '1.10-dev'
-        submodules: 'recursive'
         path: 'sourcemod'
+    - name: Checkout SourceMod submodules
+      shell: bash
+      run: |
+        cd sourcemod
+        git submodule update --init --force --recursive
+    - name: Install multilib
+      shell: bash
+      run: |
+        sudo apt install -y gcc-multilib g++-multilib
     - name: Checkout AMBuild
       uses: actions/checkout@v2
       with:
@@ -24,17 +33,90 @@ jobs:
     - name: Install AMBuild
       shell: bash
       run: |
-        python ambuild/setup.py build
-        python ambuild/setup.py install
-    
+        cd ambuild
+        python setup.py build
+        sudo python setup.py install
+        cd ..
     - name: Configure
       shell: bash
       run: |
         mkdir sm-environment/build
         cd sm-environment/build
-        python ../configure.py --enable-optimize --sm-path=../../sourcemod
-    
+        export SOURCEMOD=$GITHUB_WORKSPACE/sourcemod
+        python ../configure.py --enable-optimize
+        cd ../..
     - name: Build
       shell: bash
       run: |
+        cd sm-environment/build
         python ./build.py
+        cd ../..
+
+  build-windows:
+    name: Windows - Build
+    runs-on: windows-latest
+    steps:
+    - name: Checkout our code
+      uses: actions/checkout@v2
+      with:
+        path: 'sm-environment'
+    - name: Checkout SourceMod
+      uses: actions/checkout@v2
+      with:
+        repository: 'alliedmodders/sourcemod'
+        ref: '1.10-dev'
+        path: 'sourcemod'
+    - name: Checkout SourceMod submodules
+      shell: bash
+      run: |
+        cd sourcemod
+        git submodule update --init --force --recursive
+    - name: Checkout AMBuild
+      uses: actions/checkout@v2
+      with:
+        repository: 'alliedmodders/ambuild'
+        path: 'ambuild'
+    - name: Install AMBuild
+      shell: bash
+      run: |
+        cd ambuild
+        python setup.py build
+        python setup.py install
+        cd ..
+    - name: Configure MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x86
+    - name: Configure
+      shell: bash
+      run: |
+        mkdir sm-environment/build
+        cd sm-environment/build
+        export SOURCEMOD=$GITHUB_WORKSPACE/sourcemod
+        python ../configure.py --enable-optimize
+        cd ../..
+    - name: Build
+      shell: bash
+      run: |
+        cd sm-environment/build
+        python ./build.py
+        cd ../..
+
+  artifact-linux:
+    name: Linux - Publish artifact
+    needs: build-linux
+    steps:
+    - name: Publish
+      uses: actions/upload-artifact@v1
+      with:
+        name: linux
+        path: sm-environment/build/package
+  artifact-windows:
+    name: Windows - Publish artifact
+    needs: build-windows
+    steps:
+    - name: Publish
+      uses: actions/upload-artifact@v1
+      with:
+        name: windows
+        path: sm-environment/build/package
