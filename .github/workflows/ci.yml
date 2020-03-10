@@ -1,0 +1,40 @@
+name: CI
+on: [push]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout our code
+      uses: actions/checkout@v2
+      with:
+        path: 'sm-environment'
+    - name: Checkout SourceMod
+      uses: actions/checkout@v2
+      with:
+        repository: 'alliedmodders/sourcemod'
+        ref: '1.10-dev'
+        submodules: 'recursive'
+        path: 'sourcemod'
+    - name: Checkout AMBuild
+      uses: actions/checkout@v2
+      with:
+        repository: 'alliedmodders/ambuild'
+        path: 'ambuild'
+    - name: Install AMBuild
+      shell: bash
+      run: |
+        python ambuild/setup.py build
+        python ambuild/setup.py install
+    
+    - name: Configure
+      shell: bash
+      run: |
+        mkdir sm-environment/build
+        cd sm-environment/build
+        python ../configure.py --enable-optimize --sm-path=../../sourcemod
+    
+    - name: Build
+      shell: bash
+      run: |
+        python ./build.py
