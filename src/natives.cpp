@@ -64,6 +64,8 @@ static cell_t sm_setenv(SourcePawn::IPluginContext *pContext, const cell_t *para
 
 static int __setenv(const char* name, const char* value, int overwrite)
 {
+    // Code from this function partially copied from
+    // https://github.com/intersystems-ru/SetEnv/blob/master/c/iscsetenv.c
 
 #ifdef __linux__
     return setenv(name, value, overwrite);
