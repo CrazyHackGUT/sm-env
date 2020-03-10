@@ -1,0 +1,36 @@
+# vim: set sts=2 ts=8 sw=2 tw=99 et ft=python:
+import os, sys
+
+def BuildJob():
+    if AMBuild.target['platform'] not in ['linux', 'windows']:
+        return
+
+    # Define project name
+    name = 'env_variables.ext'
+
+    # smsdk_ext.cpp will be automatically added later
+    source_files = [
+      'extension.cpp',
+      'natives.cpp',
+    ]
+
+    ###############
+    # Make sure to edit PackageScript, which copies your files to their appropriate locations
+    # Simple extensions do not need to modify past this point.
+
+    compiler = SM.DefaultCompiler()
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.sourceFolder, 'src'))
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD'], 'public'))
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD'], 'public', 'extensions'))
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD'], 'sourcepawn', 'include'))
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD'], 'public', 'amtl'))
+    compiler['CXXINCLUDES'].append(os.path.join(AMBuild.cache['SOURCEMOD'], 'public', 'amtl', 'amtl'))
+
+    extension = AMBuild.AddJob(name)
+    binary = Cpp.LibraryBuilder(name, AMBuild, extension, compiler)
+
+    binary.AddSourceFiles('src', source_files)
+    binary.AddSourceFiles(AMBuild.cache['SOURCEMOD'], ['public/smsdk_ext.cpp'])
+    binary.SendToJob()
+
+BuildJob()
