@@ -114,6 +114,7 @@ jobs:
   artifact-windows:
     name: Windows - Publish artifact
     needs: build-windows
+    runs-on: windows-latest
     steps:
     - name: Publish
       uses: actions/upload-artifact@v1
