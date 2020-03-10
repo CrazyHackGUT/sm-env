@@ -40,6 +40,13 @@ static cell_t sm_getenv(SourcePawn::IPluginContext *pContext, const cell_t *para
     char *value = getenv(name);
 
     cell_t is_success = (value != NULL) ? 1 : 0;
+    if (params[0] > 3)
+    {
+        cell_t *addr;
+        pContext->LocalToPhysAddr(params[4], &addr);
+        *addr = is_success;
+    }
+
     if (value != NULL)
     {
         size_t numBytes;

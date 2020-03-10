@@ -40,7 +40,7 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"Environment Variables"
 #define SMEXT_CONF_DESCRIPTION	"Extension what implements getenv() for SourcePawn plugins"
-#define SMEXT_CONF_VERSION		"1.0.0.0"
+#define SMEXT_CONF_VERSION		"1.0.0.1"
 #define SMEXT_CONF_AUTHOR		"CrazyHackGUT aka Kruzya"
 #define SMEXT_CONF_URL			"https://kruzya.me/"
 #define SMEXT_CONF_LOGTAG		"ENV"

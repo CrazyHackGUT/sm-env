@@ -40,9 +40,11 @@
  * @param   szName          The environment variable name.
  * @param   szBuffer        Buffer where value should be written.
  * @param   iBufferLength   Maximum size of the buffer.
+ * @param   bExists         The ref to variable where will be written
+ *                          information about presence environment variable.
  * @return                  The written bytes count.
  */
-native int GetEnvironmentVariable(const char[] szName, char[] szBuffer, int iBufferLength);
+native int GetEnvironmentVariable(const char[] szName, char[] szBuffer, int iBufferLength, bool &bExists = false);
 
 /**
  * Do not edit below this line!
@@ -62,3 +64,10 @@ public Extension __ext_env_variables =
 	required = 0,
 #endif
 };
+
+#if !defined REQUIRE_EXTENSIONS
+public void __ext_env_variables_SetNTVOptional()
+{
+    MarkNativeAsOptional("GetEnvironmentVariable");
+}
+#endif
