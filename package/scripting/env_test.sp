@@ -42,6 +42,8 @@ public void OnPluginStart()
     RunEnvironmentVariableCase("SOURCEMOD", szValue, sizeof(szValue));
     RunEnvironmentVariableCase("METAMOD", szValue, sizeof(szValue));
 
+    RunSetGetEnvironmentVariableCase("SRCDS_DATA", "Hello, world!");
+
     EmptyLines(10);
 }
 
@@ -51,6 +53,17 @@ void RunEnvironmentVariableCase(const char[] szName, char[] szBuffer, int iBuffe
 
     int iLength = GetEnvironmentVariable(szName, szBuffer, iBufferLength);
     PrintToServer("%%%s%% (%d bytes) = %s", szName, iLength, szBuffer);
+}
+
+void RunSetGetEnvironmentVariableCase(const char[] szName, const char[] szValue)
+{
+    char szBuffer[256];
+    RunEnvironmentVariableCase(szName, szBuffer, sizeof(szBuffer));
+
+    PrintToServer("Changing value for %%%s%%... ", szName);
+    SetEnvironmentVariable(szName, szValue, true);
+
+    RunEnvironmentVariableCase(szName, szBuffer, sizeof(szBuffer));
 }
 
 void EmptyLines(int iCount)

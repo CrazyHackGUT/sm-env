@@ -35,11 +35,16 @@
 #include "sp_vm_api.h"
 
 static cell_t sm_getenv(SourcePawn::IPluginContext *pContext, const cell_t *params);
+static cell_t sm_setenv(SourcePawn::IPluginContext *pContext, const cell_t *params);
 
 extern const sp_nativeinfo_t env_natives[] =
 {
 	{"GetEnvironmentVariable",	sm_getenv},
+	{"SetEnvironmentVariable",	sm_setenv},
 	{NULL,						NULL}
 };
+
+// Helpers
+static int __setenv(const char* name, const char* value, int overwrite);
 
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_NATIVES_H_
