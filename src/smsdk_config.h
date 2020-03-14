@@ -39,8 +39,8 @@
 
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"Environment Variables"
-#define SMEXT_CONF_DESCRIPTION	"Extension what implements getenv() for SourcePawn plugins"
-#define SMEXT_CONF_VERSION		"1.0.0.1"
+#define SMEXT_CONF_DESCRIPTION	"Extension what implements getenv()/setenv() for SourcePawn plugins"
+#define SMEXT_CONF_VERSION		"1.0.0.2"
 #define SMEXT_CONF_AUTHOR		"CrazyHackGUT aka Kruzya"
 #define SMEXT_CONF_URL			"https://kruzya.me/"
 #define SMEXT_CONF_LOGTAG		"ENV"
@@ -51,25 +51,5 @@
  * @brief Exposes plugin's main interface.
  */
 #define SMEXT_LINK(name) SDKExtension *g_pExtensionIface = name;		
-
-/** Enable interfaces you want to use here by uncommenting lines */
-//#define SMEXT_ENABLE_FORWARDSYS
-//#define SMEXT_ENABLE_HANDLESYS
-//#define SMEXT_ENABLE_PLAYERHELPERS
-//#define SMEXT_ENABLE_DBMANAGER
-//#define SMEXT_ENABLE_GAMECONF
-//#define SMEXT_ENABLE_MEMUTILS
-//#define SMEXT_ENABLE_GAMEHELPERS
-//#define SMEXT_ENABLE_TIMERSYS
-//#define SMEXT_ENABLE_THREADER
-//#define SMEXT_ENABLE_LIBSYS
-//#define SMEXT_ENABLE_MENUS
-//#define SMEXT_ENABLE_ADTFACTORY
-//#define SMEXT_ENABLE_PLUGINSYS
-//#define SMEXT_ENABLE_ADMINSYS
-//#define SMEXT_ENABLE_TEXTPARSERS
-//#define SMEXT_ENABLE_USERMSGS
-//#define SMEXT_ENABLE_TRANSLATOR
-//#define SMEXT_ENABLE_ROOTCONSOLEMENU
 
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_CONFIG_H_

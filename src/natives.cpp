@@ -47,7 +47,7 @@ static cell_t sm_getenv(SourcePawn::IPluginContext *pContext, const cell_t *para
         *addr = is_success;
     }
 
-    if (value != NULL)
+    if (is_success)
     {
         size_t numBytes;
         pContext->StringToLocalUTF8(params[2], params[3], value, &numBytes);
@@ -74,10 +74,10 @@ static int __setenv(const char* name, const char* value, int overwrite)
     // Code from this function partially copied from
     // https://github.com/intersystems-ru/SetEnv/blob/master/c/iscsetenv.c
 
-#ifdef __linux__
-    return setenv(name, value, overwrite);
-#elif _WIN32
+#if _WIN32
     return _putenv_s(name, value);
+#else
+    return setenv(name, value, overwrite);
 #endif
 
 }
