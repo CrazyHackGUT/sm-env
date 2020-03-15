@@ -24,6 +24,7 @@ jobs:
     - name: Install multilib
       shell: bash
       run: |
+        sudo apt update
         sudo apt install -y gcc-multilib g++-multilib
     - name: Checkout AMBuild
       uses: actions/checkout@v2
